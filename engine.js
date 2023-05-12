@@ -55,13 +55,22 @@ class Polygon {
 }
 
 function checkPolygonCollision(polygonA, polygonB) {
-    
+
 }
 
-function isOverlapping(line1, line2) {
-    
-}
+function findIntersection(p1, p2, p3, p4) {
+    const crossProduct = (v1, v2) => v1[0] * v2[1] - v1[1] * v2[0];
+    const subtract = (v1, v2) => [v1[0] - v2[0], v1[1] - v2[1]];
+    const isBetween = (p, p1, p2) => {
+        Math.min(p1[0], p2[0]) <= p[0] && p[0] <= Math.max(p1[0], p2[0]) &&
+        Math.min(p1[1], p2[1]) <= p[1] && p[1] <= Math.max(p1[1], p2[1]);
+    }
+    let d1 = subtract(p2, p1), d2 = subtract(p4, p3), p3_p1 = subtract(p3, p1);
+    let t = crossProduct(d2, p3_p1) / crossProduct(d1, d2);
+    let intersection = [p1[0] + t * d1[0], p1[1] + t * d1[1]];
 
+    return isBetween(intersection, p1, p2) && isBetween(intersection, p3, p4) ? intersection : null;
+}
 
 // 물리 객체 배열 생성
 const objects = [];
